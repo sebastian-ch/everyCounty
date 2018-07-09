@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="twitter:image" content="https://i.imgur.com/8d7aQc0.png" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>Every County</title>
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC" rel="stylesheet">
     <style>
@@ -14,7 +16,7 @@
 
         body {
             font-family: 'Alegreya Sans SC', sans-serif;
-            text-align: center; 
+            text-align: center;
             width: 90%;
             margin: 10px auto 10px auto;
         }
@@ -24,6 +26,7 @@
             padding-top: 20px;
             margin: 0;
         }
+
         #county {
             /*text-align: center; */
             display: inline-block;
@@ -39,7 +42,7 @@
     <div id="map"></div>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
-   
+
     <script>
         d3.json("500kcounty.geojson").then(function (county) {
 
@@ -70,7 +73,7 @@
                     .append("svg")
                     .attr("width", width)
                     .attr("height", height)
-                    
+
                 svg.append("g")
                     .selectAll("path")
                     .data(newJson.features)
