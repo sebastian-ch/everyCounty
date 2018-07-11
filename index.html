@@ -6,7 +6,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://i.imgur.com/8d7aQc0.png" />
     <meta name="twitter:title" content="All US Counties" />
-    
+
     <title>Every County</title>
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC" rel="stylesheet">
     <style>
@@ -21,6 +21,12 @@
             text-align: center;
             width: 90%;
             margin: 10px auto 10px auto;
+        }
+
+        .hidden {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s 0.5s, opacity 0.5s linear;
         }
 
         #map {
@@ -41,12 +47,15 @@
 <body>
     <h1> Every US County, including Puerto Rico and Minor Outlying Islands</h1>
     <br>
+    <div id="loader">Loading..</div>
     <div id="map"></div>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
 
     <script>
-        d3.json("500kcounty.geojson").then(function (county) {
+        d3.json("500kcounty-simple.json").then(function (county) {
+
+            document.getElementById("loader").classList.add('hidden');
 
             var projection = d3.geoAlbers();
             var path = d3.geoPath().projection(projection);
@@ -55,7 +64,7 @@
 
                 var newJson = {
                     "type": "FeatureCollection",
-                    "name": county.features[x].properties.NAME,
+                    //"name": county.features[x].properties.NAME,
                     "features": [
                         county.features[x]
                     ]
@@ -69,24 +78,26 @@
                 var map = d3.select("#map")
                     .append("div")
                     .attr("id", "county")
-                    .attr("class", newJson.name);
+                //.attr("class", newJson.name);
 
                 var svg = map
                     .append("svg")
                     .attr("width", width)
                     .attr("height", height)
 
-                svg.append("g")
+                var data = svg.append("g")
                     .selectAll("path")
                     .data(newJson.features)
                     .enter()
                     .append("path")
                     .attr("d", path)
+                    // .style("fill-opacity", "0.0")
                     //.attr("class", "county " + newJson.name)
                     .style("fill", "whitesmoke")
-                    .style("fill-opacity", "0.5")
                     .style("stroke-width", "0.5")
                     .style("stroke", "#000")
+                    .style("fill-opacity", "0.5")
+
             }
         })
     </script>
